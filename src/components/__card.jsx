@@ -1,4 +1,4 @@
-export default function ({ datas=[], image }) {
+export default function ({ data, image }) {
 	return (
 		<div className="">
 			<div className="avatar">
@@ -6,11 +6,9 @@ export default function ({ datas=[], image }) {
 					<img src={image} />
 				</div>
 			</div>
-         {
-            datas.forEach((key, val) => {
-               return `${key} : ${val}`
-            })
-         }
+         <ul>
+            <li></li>
+         </ul>
 		</div>
 	)
 }

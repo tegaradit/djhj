@@ -14,7 +14,7 @@ export default function Home() {
 	return (
 		<div className="flex justify-center items-center flex-col">
 			<h1>Home Page</h1>
-			<Card datas={dataGuru} image={dataGuru[0].foto_profil} />
+			<Card datas={dataGuru[0]} image={dataGuru[0].foto_profil} />
 			{/* <motion.div
             style={{
                width: 150,
