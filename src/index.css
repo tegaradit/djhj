@@ -5,3 +5,14 @@
 .input {
    height: 2rem;
 }
+
+::-webkit-scrollbar {
+   width: 5px;
+   height: 5px;
+}
+::-webkit-scrollbar-thumb {
+   background: gray;
+}
+::-webkit-scrollbar-track {
+   background: inherit;
+}

@@ -1,54 +1,29 @@
-export default async function (url, method, ContentType = null, body = null) {
+export default async function (url, method, contentType = null, body = null) {
    let response
    try {
-      if (method.toLowerCase() == 'get') {
-         response = await fetch(url, {
-            method: 'get',
-            mode: "cors",
-            cache: "no-cache",
-            redirect: "follow",
-         })
-      } else if (ContentType.toLowerCase() == 'multipart/form-data') {
-         const formData = new FormData()
-         Object.entries(body).forEach(([key, val]) => {
-            formData.append(`${key}`, val)
-         })
 
-         response = await fetch(url, {
-            method: method,
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-               "Content-Type": 'multipart/form-data',
-            },
-            redirect: "follow",
-            body: formData
-         })
-      } else if (ContentType.toLowerCase() == 'application/json') {
-         response = await fetch(url, {
-            method: method,
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-               "Content-Type": 'application/json',
-            },
-            redirect: "follow",
-            body: JSON.stringify(body)
-         })
-      } else {
-         response = await fetch(url, {
-            method: method,
-            mode: "cors",
-            cache: "no-cache",
-            headers: {
-               "Content-Type": ContentType,
-            },
-            redirect: "follow",
-            body: body
-         })
+      let formData = null
+      if (contentType) if (contentType.toLowerCase() == 'multipart/form-data') {
+         formData = new FormData()
+         Object.entries(body).forEach( ([ key, val ]) => formData.append(`${key}`, val) )
       }
 
-      return response
+      const options = {
+         method: method,
+         mode: "cors",
+         cache: "no-cache",
+         redirect: "follow",
+         headers: {
+            "Content-Type": contentType,
+         },
+         redirect: "follow",
+         body: formData ? formData : JSON.stringify(body) || body
+      }
+
+      if (!body) delete options.body
+
+      return await fetch(url, options)
+
    } catch (err) {
       return {err, response}
    }
