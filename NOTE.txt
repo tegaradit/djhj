@@ -1,15 +1,18 @@
-menyempurnakan useCookie hook [COMPLETE✅]
-merapihkan login komponen [COMPLETE✅]
+menyempurnakan useCookie hook       [COMPLETE✅]
+merapihkan login komponen           [COMPLETE✅] -> (selesikan 3D rotation card login)
+menyelesaikan toasty komponen       [COMPLETE✅]
+menyelesaikan cardTeacher animation [COMPLETE✅]
 
 
 "admin-auth" => menuggu role response (update dari backend)
 menyatukan authentikasi dan authorisasi di router login (saat ini masih di pisah, authentikasi di /login dan authorisasi di /auth)
 menyempurnakan fitur login dan logout
 
-menyelesaikan toasty komponen
-menyelesaikan card animation
 
 menambahkan UI pada errorboudary compoent
+menambahkan Loading animation pada setiap pemanggilan API
 komponen loadingBoundaries masih belum terpakai (dipertimbangkan untuk di hilangkan)
 
-refactoring code
+RESPONSIBILITY WEBSITE ⛔
+
+clean code
