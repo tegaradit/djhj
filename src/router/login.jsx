@@ -1,66 +1,115 @@
-import { Form, Link, useActionData } from "react-router-dom"
-import { useFetch } from "../hooks/hooks";
+import { Form, Link, useActionData, useNavigate } from "react-router-dom"
+import { useCookie, useFetch } from "../hooks/hooks";
 import { LoadingButton } from "../components/components";
-import Toasty, { useToasty } from "../components/toasty";
-// import { useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { LazyMotion, m, domAnimation, useSpring, useTransform } from "framer-motion"
 
 
-export async function actionLogin({ request }) {
+export const actionLogin = async ({ request }) => {
+   const cookie = useCookie('token')
    const form = await request.formData()
-   return await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
-      username: form.get('username'),
-      password: form.get('password'),
-   })
 
+   let result
+   if (!cookie.isExist()) {
+      result = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
+         username: form.get('username'),
+         password: form.get('password'),
+      }).then(res => {
+         cookie.updateDataAndExpires(res.token, 1)
+         return res
+      }).catch(err => {
+         console.log(err)
+      })
+   }
    
+   return {
+      token: cookie.isExist() || result.token,
+      username: form.get('username'),
+      password: form.get('password')
+   }
 }
 
-export default function Login() {
+const Login = () => {
    const actionData = useActionData()
-   // const lightRef = useRef()
-   // const formRef = useRef()
+   const navigate = useNavigate()
+   
+   useEffect(() => {
+      if (actionData) {
+         navigate('/auth', {
+            state: {
+               token: actionData.token, 
+               username: actionData.username, 
+               password: actionData.password 
+            }
+         })
+      }
+   }, [actionData])
 
-   // let lightRect;
-   // let formRect;
-   // useEffect(() => {
-   //    lightRect = lightRef.current.getBoundingClientRect()
-   //    formRect = formRef.current.getBoundingClientRect()
-   // }, [lightRef, formRef])
-   // function handdleMouseMove(ev) {
-   //    if (lightRect && formRect) {
-   //       lightRef.current.style.transform = `translate(${ev.nativeEvent.layerX - lightRect.width / 2.5}px, ${((formRect.height / 2) + (ev.nativeEvent.layerY - lightRect.height)) / 2}px)`;
-   //    }
-   // }
 
-   const {toast, trigger} = useToasty()
+   // login form effect
+   const springOptions = {
+      stiffness: 500, 
+      damping: 90
+   }
+   const mouseX = useSpring(0, springOptions)
+   const mouseY = useSpring(0, springOptions)
+   const rotateX = useTransform(mouseX, [-150, 150], [-15, 15])
+   const rotateY = useTransform(mouseY, [-150, 170], [15, -15])
+   function handleMouse(event) {
+      mouseX.set(event.pageX - (window.innerWidth / 2))
+      mouseY.set(event.pageY - (window.innerHeight / 2))
+   }
+
+
    return (
       <div className="w-full h-screen bg-gradient-to-br from-slate-950 to-slate-800 text-white flex justify-center items-center">
-         <Link to={'/'}>Home</Link>
+         <LazyMotion features={domAnimation}>
+            <m.div
+               onMouseMove={handleMouse}
+               onMouseLeave={() => {
+                  mouseX.set(0)
+                  mouseY.set(0)
+               }}
+               style={{
+                  rotateX,
+                  rotateY
+               }}
+            >
+               <Form method="POST" className="relative shadow-xl form-control w-80 items-stretch justify-center group bg-slate-500/10 p-[3rem_1.5rem] overflow-hidden rounded-xl gap-4">
+                  <h1 className="text-center font-bold text-lg">Login</h1>
 
-         <Toasty toast={toast} />
+                  <div>
+                     <label className="label">
+                        <span className="label-text text-white">username</span>
+                     </label>
+                     <input type="text" name="username" className="bg-inherit input input-bordered w-full max-w-xs border focus:border-slate-500 border-slate-500" />
+                  </div>
+                  
+                  <div className="mb-4">
+                     <label className="label">
+                        <span className="label-text text-white">password</span>
+                     </label>
+                     <input className="border border-slate-500 focus:border-slate-500 input input-bordered w-full max-w-xs bg-inherit" name="password" type="password" />
+                  </div>
 
-         <Form onClick={() => trigger('login success', 'success', 3000)} /* ref={formRef} onMouseMove={handdleMouseMove} */ method="POST" className="relative form-control w-full max-w-xs items-stretch justify-center group bg-slate-500/10 p-[3rem_1.5rem] overflow-hidden rounded-xl gap-4">
-            <h1 className="text-center font-bold text-lg">Login</h1>
+                  <div className="flex justify-stretch gap-3">
+                     <Link to={'/'} className="btn btn-neutral grow btn-xs sm:btn-sm md:btn-md lg:btn-lg" style={{height:'2rem', minHeight: '0rem', fontSize: '0.8rem'}}>Home</Link>
+                     <LoadingButton type="submit" className="grow" waitFor={actionData}>Login</LoadingButton>
+                  </div>
 
-            <div>
-               <label className="label">
-                  <span className="label-text text-white">username</span>
-               </label>
-               <input type="text" name="username" className="bg-inherit input input-bordered w-full max-w-xs border focus:border-slate-500 border-slate-500" />
-            </div>
-            
-            <div className="mb-4">
-               <label className="label">
-                  <span className="label-text text-white">password</span>
-               </label>
-               <input className="border border-slate-500 focus:border-slate-500 input input-bordered w-full max-w-xs bg-inherit" name="password" type="password" />
-            </div>
+                     <m.div 
+                        style={{
+                           background: 'radial-gradient(cyan, transparent 50%)',
+                           x: mouseX,
+                           y: mouseY
+                        }}
 
-            <LoadingButton type="submit" waitFor={actionData}>Login</LoadingButton>
-
-            {/* <div ref={lightRef} style={{background: 'radial-gradient(cyan, transparent 50%)'}} className="pointer-events-none group-hover:opacity-25 opacity-0 transition-opacity self-center duration-500 absolute w-96 h-96 blur-md rounded-full"></div> */}
-         
-         </Form>
+                        className="pointer-events-none group-hover:opacity-10 opacity-0 transition-opacity self-center duration-500 absolute w-[40rem] h-[40rem] blur-md rounded-full"
+                     />
+               </Form>
+            </m.div>
+         </LazyMotion>
       </div>
    )
 }
+export default Login

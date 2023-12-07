@@ -8,6 +8,9 @@ import Root, { loaderDataGuru } from './router/root'
 import Home from './router/home'
 import Login, { actionLogin } from './router/login'
 import ErrorPage from './errors/error-page'
+import Admin from "./router/admin/admin";
+import Teachers from "./router/teachers";
+import Projects from "./router/projects";
 
 const router = createBrowserRouter([
 	{
@@ -74,6 +77,18 @@ const router = createBrowserRouter([
 				),
 				action: actionLogin
 			},
+			{
+				path: "auth",
+				element: <Admin />
+			},
+			{
+				path: "projects",
+				element: <Projects />
+			},
+			{
+				path: "teachers",
+				element: <Teachers />
+			}
 		],
 	},
 	{

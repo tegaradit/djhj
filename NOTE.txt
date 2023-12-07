@@ -1,0 +1,15 @@
+menyempurnakan useCookie hook [COMPLETE✅]
+merapihkan login komponen [COMPLETE✅]
+
+
+"admin-auth" => menuggu role response (update dari backend)
+menyatukan authentikasi dan authorisasi di router login (saat ini masih di pisah, authentikasi di /login dan authorisasi di /auth)
+menyempurnakan fitur login dan logout
+
+menyelesaikan toasty komponen
+menyelesaikan card animation
+
+menambahkan UI pada errorboudary compoent
+komponen loadingBoundaries masih belum terpakai (dipertimbangkan untuk di hilangkan)
+
+refactoring code

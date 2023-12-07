@@ -1,5 +1,4 @@
-export default async function (url, method, contentType = null, body = null) {
-   let response
+export default async function (url, method, contentType = null, body = null, authorization = null) {
    try {
 
       let formData = null
@@ -15,16 +14,18 @@ export default async function (url, method, contentType = null, body = null) {
          redirect: "follow",
          headers: {
             "Content-Type": contentType,
+            "authorization": authorization
          },
          redirect: "follow",
          body: formData ? formData : JSON.stringify(body) || body
       }
 
       if (!body) delete options.body
+      if (!authorization) delete options.headers.authorization
 
-      return await fetch(url, options)
+      return await fetch(url, options).then(res => {return res.json()})
 
    } catch (err) {
-      return {err, response}
+      return err
    }
 }

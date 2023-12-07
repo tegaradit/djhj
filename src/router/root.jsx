@@ -1,29 +1,23 @@
-import { Outlet, useLoaderData } from "react-router-dom";
-import ErrorBoundary from "../errors/errorBoundary";
+import { Outlet, useLoaderData, useLocation } from "react-router-dom";
+import ErrorBoundary from "../errors/error-boundary";
 import { useFetch } from "../hooks/hooks";
+import { Navbar } from "../components/components";
 
-export async function loaderDataGuru() {
+export const loaderDataGuru = async () => {
 	return await useFetch("https://api.pplgsmenza.id/guru", "get")
-	.then(res => res.json())
-	.then(data => {
-		return data
-	})
-
-	// if (!sessionStorage.getItem('dtgr')) {
-	// 			// sessionStorage.setItem('dtgr', JSON.stringify(data))
-	// } else {
-	// 	return JSON.parse(sessionStorage.getItem('dtgr'))
-	// }
 }
 
-export default function Root() {
+const Root = () => {
 	const dataGuru = useLoaderData()
+	const pathName = useLocation().pathname
 
 	return (
 		<>
 			<ErrorBoundary fallback={<p>Error</p>}>
+				{pathName != '/' & pathName != '/login' ? <Navbar /> : ''}
             <Outlet context={dataGuru} />
 			</ErrorBoundary>
 		</>
 	)
 }
+export default Root

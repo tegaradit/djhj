@@ -1,6 +1,8 @@
 import __buttonLoading from "./__loadingButton";
 import __loadingBoundary from "./__loadingBoundary";
-import __card from "./__card";
+import __cardTeacher from "./__cardTeacher";
+import __navbar from "./__navbar";
+import __cardProject from "./__cardProject";
 
 export const LoadingBoundary = __loadingBoundary
 
@@ -11,4 +13,6 @@ export const LoadingBoundary = __loadingBoundary
  */
 export const LoadingButton = __buttonLoading
 
-export const Card = __card
+export const CardTeacher = __cardTeacher
+export const CardProject = __cardProject
+export const Navbar = __navbar
