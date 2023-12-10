@@ -1,9 +1,10 @@
-import { Navbar } from "../components/components";
+import Navbar from "../components/navbar";
+
 
 export default function Home() {
 
 	return (
-		<>
+		<main>
 			<section className="h-[100svh] w-full">
 				<h1 className="text-6xl text-center leading-[100svh]">welcome</h1>
 			</section>
@@ -20,21 +21,6 @@ export default function Home() {
 					</p>
 				</div>
 			</section>
-
-			{/* <h1 onClick={() => 	
-				trigert({
-					type: 'success',
-					text: 'something',
-					duration: 3000
-				})}
-			>Home Page</h1>
-			<Toasty />
-			<Link to={'/login'}>Login</Link>
-			<div className="flex flex-wrap justify-evenly items-start px-4 gap-4 h-screen">
-				{dataGuru.map((data, idx) => {
-					return <Card data={data} key={idx} />
-				})}
-			</div> */}
-		</>
+		</main>
 	)
 }

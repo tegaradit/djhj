@@ -1,8 +1,10 @@
 import { Form, Link, useActionData, useNavigate } from "react-router-dom"
-import { useCookie, useFetch } from "../hooks/hooks";
-import { LoadingButton } from "../components/components";
 import { useEffect } from "react";
 import { LazyMotion, m, domAnimation, useSpring, useTransform } from "framer-motion"
+
+import LoadingButton from "../components/loadingButton";
+import useCookie from "../hooks/useCookie";
+import useFetch from "../hooks/useFetch";
 
 
 export const actionLogin = async ({ request }) => {
@@ -29,7 +31,7 @@ export const actionLogin = async ({ request }) => {
    }
 }
 
-const Login = () => {
+export const Login = () => {
    const actionData = useActionData()
    const navigate = useNavigate()
    
@@ -53,8 +55,8 @@ const Login = () => {
    }
    const mouseX = useSpring(0, springOptions)
    const mouseY = useSpring(0, springOptions)
-   const rotateX = useTransform(mouseX, [-150, 150], [-15, 15])
-   const rotateY = useTransform(mouseY, [-150, 170], [15, -15])
+   const rotateX = useTransform(mouseY, [-150, 170], [-5, 5])
+   const rotateY = useTransform(mouseX, [-150, 150], [5, -5])
    function handleMouse(event) {
       mouseX.set(event.pageX - (window.innerWidth / 2))
       mouseY.set(event.pageY - (window.innerHeight / 2))
@@ -62,7 +64,7 @@ const Login = () => {
 
 
    return (
-      <div className="w-full h-screen bg-gradient-to-br from-slate-950 to-slate-800 text-white flex justify-center items-center">
+      <div className="w-full h-screen bg-gradient-to-br from-slate-950 to-slate-800 text-white flex justify-center items-center" style={{perspective: 400}}>
          <LazyMotion features={domAnimation}>
             <m.div
                onMouseMove={handleMouse}
@@ -112,4 +114,3 @@ const Login = () => {
       </div>
    )
 }
-export default Login

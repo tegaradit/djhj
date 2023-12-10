@@ -1,32 +1,18 @@
-// function verifyToken(req, res, next) {
-// 	const token = req.headers["authorization"];
-
-// 	if (token) {
-//       // Memeriksa apakah token sudah dicabut atau belum
-//       if (revokedTokens.includes(token)) {
-//          return res.status(401).json({ error: "Token sudah dicabut" });
-//       }
-
-//       jwt.verify(token, "kunci_rahasia_anda", (err, decoded) => {
-//          if (err) {
-//             return res.status(401).json({ error: "Token tidak valid" });
-//          }
-//          req.decoded = decoded;
-//       })
-// 	}
-
-//    next();
-// }
-
-const getCookie = (name) => {
-	const cookie = "token=sometoken; data=nama";
-	return cookie.slice(
-		cookie.indexOf("=", cookie.indexOf(name)) + 1,
-		cookie.indexOf(";", cookie.indexOf(name)) != -1
-			? cookie.indexOf(";", cookie.indexOf(name))
-			: cookie.length
-	)
+const items = {
+	item1: 'banana',
+	item2: 'apple',
+	item3: 'manggo',
+	item4: 'pear',
+	item5: 'strowberry'
 }
 
+// Object.entries(items).forEach(([key, val], index) => {
+// 	console.log(key, val, index)
+// })
 
-console.log(getCookie("data"));
+// range(0.01, 0.08)
+// console.log(Math.random() * (0.08 - 0.01) + 0.01)
+
+const test = () => {return {data: 'something'}}
+
+console.log(test())

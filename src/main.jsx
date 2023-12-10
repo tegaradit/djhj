@@ -1,16 +1,30 @@
 import "./index.css";
-import React from "react";
+import React    from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
 
-import Root, { loaderDataGuru } from './router/root'
-import Home from './router/home'
-import Login, { actionLogin } from './router/login'
-import ErrorPage from './errors/error-page'
-import Admin from "./router/admin/admin";
-import Teachers from "./router/teachers";
-import Projects from "./router/projects";
+
+import Root, 	  { loaderDataGuru } from "./router/root";
+import Home 	  from "./router/home";
+import ErrorPage from "./errors/error-page";
+
+
+/**
+ * @param {string} path
+ * @param {Object} modules
+ */
+const lazyImport = async (path, modules) => {
+	const result = {}
+
+	await import(path).then(module => 
+		Object.entries(modules).forEach(([key, val]) => 
+			result[key] = module[val]
+		)
+	)
+
+	return result
+}
+
 
 const router = createBrowserRouter([
 	{
@@ -20,74 +34,39 @@ const router = createBrowserRouter([
 		children: [
 			{
 				index: true,
-				element: (
-						<AnimatePresence mode='popLayout'>
-							<motion.div 
-								key='home'
-
-								initial={{
-									opacity: 0,
-									y: '20%'
-								}} 
-								animate={{
-									y: '0',
-									opacity: 1
-								}} 
-								exit={{
-									y: '20%',
-									opacity: 0
-								}} 
-								transition={{
-									duration: 0.7,
-									ease: 'easeInOut'
-								}}
-							>
-								<Home />
-							</motion.div>
-						</AnimatePresence>
-				)
+				element: <Home />
 			},
 			{
 				path: "login",
-				element: (
-						<AnimatePresence mode='popLayout'>
-							<motion.div 
-								key='login' 
-
-								initial={{
-									opacity: 0,
-									y: '-100%'
-								}} 
-								animate={{
-									y: '0',
-									opacity: 1
-								}} 
-								exit={{
-									y: '-100%',
-									opacity: 0
-								}} 
-								transition={{
-									duration: 0.7,
-									ease: 'easeInOut'
-								}}
-							>
-								<Login />
-							</motion.div>
-						</AnimatePresence>
-				),
-				action: actionLogin
+				lazy: () => lazyImport('./router/login', {
+					Component: 'Login',
+					action: 'actionLogin'
+				})
 			},
 			{
 				path: "auth",
-				element: <Admin />
+				lazy: () => lazyImport('./router/admin/admin', {
+					Component: 'Admin'
+				})
 			},
 			{
 				path: "projects",
-				element: <Projects />
+				lazy: () => lazyImport('./router/projects', {
+					Component: 'Projects', 
+					loader: 'loaderProjects'
+				})
 			},
 			{
 				path: "teachers",
-				element: <Teachers />
+				lazy: () => lazyImport('./router/teachers', {
+					Component: 'Teachers'
+				})
+			},
+			{
+				path: "about",
+				lazy: () => lazyImport('./router/about', {
+					Component: 'About'
+				})
 			}
 		],
 	},

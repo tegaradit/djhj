@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export default function ({ children, waitFor, ...rest }) {
+const LoadingButton = ({ children, waitFor, ...rest }) => {
    const [isLoading, setIsloading] = useState(waitFor || false)
    useEffect(() => {
       if (waitFor) setIsloading(false)
@@ -15,3 +15,4 @@ export default function ({ children, waitFor, ...rest }) {
       </button>
    )
 }
+export default LoadingButton

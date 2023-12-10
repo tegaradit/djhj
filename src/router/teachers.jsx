@@ -1,19 +1,16 @@
 import { useOutletContext } from "react-router-dom"
-import { CardTeacher } from "../components/components"
+import CardTeacher from "../components/cardTeacher"
 
 
-const Teachers = () => {
+export const Teachers = () => {
    /**@type {Array} */
-   const data = useOutletContext()
-   console.log(data)
+   const data = useOutletContext().dataGuru
 
    return (
-      <div className="p-8 flex gap-8 justify-evenly flex-wrap">
+      <main className="p-8 flex gap-8 justify-evenly flex-wrap">
          {data.map(guru => {
 				return <CardTeacher data={guru} key={guru.id} />
          })}
-      </div>
+      </main>
    )
 }
-
-export default Teachers
