@@ -94,6 +94,7 @@ class Cookie {
  * @param {string} data
  * @param {number} expires number of day (1 = 1day)
  */
-export default (name, data = null, expires = null) => {
+const useCookie = (name, data = null, expires = null) => {
    return new Cookie(name, data, expires)
 }
+export default useCookie

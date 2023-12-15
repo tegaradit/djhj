@@ -4,9 +4,9 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 
-import Root, 	  { loaderDataGuru } from "./router/root";
-import Home 	  from "./router/home";
-import ErrorPage from "./errors/error-page";
+import Root from "./router/root";
+import Home from "./router/home";
+import ErrorRouter from "./errors/errorRouter";
 
 
 /**
@@ -16,7 +16,8 @@ import ErrorPage from "./errors/error-page";
 const lazyImport = async (path, modules) => {
 	const result = {}
 
-	await import(path).then(module => 
+	
+	await import(`/src/router/${path}.jsx` /* @vite-ignore */).then(module => 
 		Object.entries(modules).forEach(([key, val]) => 
 			result[key] = module[val]
 		)
@@ -30,7 +31,6 @@ const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <Root />,
-		loader: loaderDataGuru,
 		children: [
 			{
 				index: true,
@@ -38,41 +38,43 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "login",
-				lazy: () => lazyImport('./router/login', {
+				lazy: () => lazyImport('login', {
 					Component: 'Login',
 					action: 'actionLogin'
 				})
 			},
 			{
-				path: "auth",
-				lazy: () => lazyImport('./router/admin/admin', {
+				path: "admin",
+				lazy: () => lazyImport('admin/admin', {
 					Component: 'Admin'
 				})
 			},
 			{
 				path: "projects",
-				lazy: () => lazyImport('./router/projects', {
-					Component: 'Projects', 
+				lazy: () => lazyImport('projects', {
+					Component: 'Projects',
 					loader: 'loaderProjects'
 				})
 			},
 			{
 				path: "teachers",
-				lazy: () => lazyImport('./router/teachers', {
-					Component: 'Teachers'
+				lazy: () => lazyImport('teachers', {
+					Component: 'Teachers',
+					loader: 'loaderTeacher'
 				})
 			},
 			{
 				path: "about",
-				lazy: () => lazyImport('./router/about', {
-					Component: 'About'
+				lazy: () => lazyImport('about', {
+					Component: 'About',
+					loader: 'loaderDev'
 				})
 			}
 		],
 	},
 	{
 		path: '*',
-		element: <ErrorPage />
+		element: <ErrorRouter />
 	},
 ])
 

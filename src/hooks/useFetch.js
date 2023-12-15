@@ -1,4 +1,4 @@
-export default async function (url, method, contentType = null, body = null, authorization = null) {
+const useFetch = async (url, method = 'get', contentType = null, body = null, authorization = null) => {
    try {
 
       let formData = null
@@ -26,6 +26,7 @@ export default async function (url, method, contentType = null, body = null, aut
       return await fetch(url, options).then(res => {return res.json()})
 
    } catch (err) {
-      return err
+      throw new Error('USEFETCH_ERROR; ' + err)
    }
 }
+export default useFetch

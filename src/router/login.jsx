@@ -8,26 +8,30 @@ import useFetch from "../hooks/useFetch";
 
 
 export const actionLogin = async ({ request }) => {
+   console.log('action')
+
    const cookie = useCookie('token')
    const form = await request.formData()
 
-   let result
-   if (!cookie.isExist()) {
-      result = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
-         username: form.get('username'),
-         password: form.get('password'),
-      }).then(res => {
-         cookie.updateDataAndExpires(res.token, 1)
-         return res
-      }).catch(err => {
-         console.log(err)
-      })
-   }
-   
-   return {
-      token: cookie.isExist() || result.token,
-      username: form.get('username'),
-      password: form.get('password')
+   try {
+      if (!cookie.isExist()) {
+         var result = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
+            username: form.get('username'),
+            password: form.get('password'),
+         })
+      }
+      
+      console.log(result)
+      
+      
+      cookie.updateDataAndExpires(result.token, 1)
+      return {
+         message: result.message
+      }
+   } catch (err) {
+      console.log(err)
+      // throw new Error(err)
+      return {err}
    }
 }
 
@@ -37,13 +41,12 @@ export const Login = () => {
    
    useEffect(() => {
       if (actionData) {
-         navigate('/auth', {
-            state: {
-               token: actionData.token, 
-               username: actionData.username, 
-               password: actionData.password 
-            }
-         })
+         if (!actionData.err) 
+            if (actionData.message) navigate('/admin', {
+               state: {
+                  message: actionData.message
+               }
+            })
       }
    }, [actionData])
 
@@ -77,7 +80,7 @@ export const Login = () => {
                   rotateY
                }}
             >
-               <Form method="POST" className="relative shadow-xl form-control w-80 items-stretch justify-center group bg-slate-500/10 p-[3rem_1.5rem] overflow-hidden rounded-xl gap-4">
+               <Form method="POST" action="/login" className="relative shadow-xl form-control w-80 items-stretch justify-center group bg-slate-500/10 p-[3rem_1.5rem] overflow-hidden rounded-xl gap-4">
                   <h1 className="text-center font-bold text-lg">Login</h1>
 
                   <div>
