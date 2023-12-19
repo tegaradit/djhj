@@ -1,28 +1,59 @@
+import { m, useMotionValueEvent, useScroll } from 'framer-motion';
 import abstractBg from '../assets/images/abstract.webp'
+import { useState } from 'react';
 
 
 export default function Home() {
+
+	const { scrollY } = useScroll()
+	const [scrollYVal, setScrollYVal] = useState()
+
+	useMotionValueEvent(scrollY, "change", (latest) => {
+		if (latest < window.innerHeight / 1.3)
+		setScrollYVal(latest / (window.innerHeight - 74))
+	})
+
 	return (
-		<main className='' style={{fontSize: 'clamp(14px, 2vw, 18px)'}}>
+		<main style={{fontSize: 'clamp(14px, 2vw, 18px)'}} >
 			<section className="h-[calc(100vh_-_4.5rem)] relative w-full flex justify-center items-center px-8">
 				<div className="max-w-[45rem] text-center">
-					<div className="max-w-96">
-						<h1 className="text-[5em] mb-2 md:mb-8 text-transparent bg-clip-text bg-left hover:bg-right bg-contain transition-[background-position] duration-[1.5s]" style={{backgroundImage: `url(${abstractBg})`}}>welcome</h1>
-						<p>
+					<div className="max-w-96 overflow-hidden">
+						<m.h1
+							className="text-[5em] mb-2 md:mb-8 text-transparent bg-clip-text bg-contain transition-[background-position] duration-[1.5s]" 
+							style={{
+								backgroundImage: `url(${abstractBg})`,
+								scale: 1 + scrollYVal,
+								opacity: 1 - scrollYVal
+							}}
+						>
+							welcome
+						</m.h1>
+						<m.p
+							style={{
+								scale: 1 - scrollYVal,
+								opacity: 1 - scrollYVal
+							}}
+						>
 							Lorem ipsum dolor sit amet consectetur adipisicing elit. At
 							vel temporibus pariatur ad inventore unde ea optio obcaecati
 							illum ipsum, aut molestiae autem nihil eaque aliquid
 							voluptatem similique. Culpa, unde!
-						</p>
+						</m.p>
 					</div>
 				</div>
 
-				<div className="absolute left-0 bottom-1/2 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none" style={{background: 'radial-gradient(rgba(0, 100, 255, 0.2), transparent 70%)'}}>
-
-				</div>
-				<div className="absolute right-0 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none" style={{background: 'radial-gradient(rgba(157, 0, 230, 0.3), transparent 70%)'}}>
-
-				</div>
+				<m.div
+					style={{
+						background: 'radial-gradient(rgba(0, 100, 255, 0.2), transparent 70%)'
+					}}
+					className="absolute left-0 bottom-1/2 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none" 
+				></m.div>
+				<m.div
+					style={{
+						background: 'radial-gradient(rgba(157, 0, 230, 0.3), transparent 70%)'
+					}}  
+					className="absolute right-0 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none"
+				></m.div>
 			</section>
 
 

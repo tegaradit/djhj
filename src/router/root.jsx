@@ -1,6 +1,6 @@
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { LazyMotion, m, domAnimation, useMotionValue } from "framer-motion"
+import { LazyMotion, m, domAnimation, useMotionValue, AnimatePresence } from "framer-motion"
 
 import ErrorBoundary from "../errors/errorBoundary";
 import Navbar from "../components/navbar";
@@ -54,8 +54,7 @@ const Root = () => {
 						!pathname.includes('/auth') ? 
 							<Navbar theme={[theme, setTheme]} /> : ''
 					}
-					
-					<Outlet context={{theme: [theme, setTheme]}} />
+					<Outlet context={{theme: [theme, setTheme]}} key={window.location.pathname} location={window.location} />
 				</LazyMotion>
 			</ErrorBoundary>
 		</>

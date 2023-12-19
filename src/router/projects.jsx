@@ -5,7 +5,6 @@ import useFetch from "../hooks/useFetch"
 import exampleImg from '../assets/images/card.jpg'
 import CardProject from "../components/cardProject"
 import { useState } from "react"
-import { useOutletContext } from "react-router-dom"
 import TitlePage from "../components/titlePage"
 
 export const loaderProjects = async () => {
@@ -25,7 +24,6 @@ export const loaderProjects = async () => {
 
 
 export const Projects = () => {
-   const [theme, _] = useOutletContext().theme
 
    const dataProjects = [
       {
@@ -96,7 +94,7 @@ export const Projects = () => {
    }
 
    return (
-      <main className="flex flex-col items-stretch">
+      <main className="flex flex-col items-stretch" >
          <TitlePage title='Projects' content='buatan siswa' width={83.5} />
 
          <header className="self-center md:px-0 px-10 max-w-[80rem] w-full mt-4 mb-4">

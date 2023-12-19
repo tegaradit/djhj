@@ -78,6 +78,47 @@ const router = createBrowserRouter([
 	},
 ])
 
+// const AnimateRouters = () => {
+// 	const location = useLocation();
+// 	const locationArr = location.pathname?.split('/') ?? [];
+	
+// 	return (
+// 		<AnimatePresence mode="popLayout">
+// 			<Routes location={location} key={locationArr[1]}>
+// 				<Route index element={<Home />} />
+// 				<Route path="login" lazy={() => lazyImport('login', {
+// 					Component: 'Login',
+// 					action: 'actionLogin'
+// 				})} />
+// 				<Route path="admin" lazy={() => lazyImport('admin/admin', {
+// 					Component: 'Admin'
+// 				})} />
+// 				<Route path="projects" lazy={() => lazyImport('projects', {
+// 					Component: 'Projects',
+// 					loader: 'loaderProjects'
+// 				})} />
+// 				<Route path="teachers" lazy={() => lazyImport('teachers', {
+// 					Component: 'Teachers',
+// 					loader: 'loaderTeacher'
+// 				})} />
+// 				<Route path="about" lazy={() => lazyImport('about', {
+// 					Component: 'About',
+// 					loader: 'loaderDev'
+// 				})} />
+// 			</Routes>
+// 		</AnimatePresence>
+// 	)
+// }
+
+// const router = createBrowserRouter(createRoutesFromElements(
+// 	<>
+// 		<Route path="*" element={<Root />}>
+// 			<Route index element={<AnimateRouters />} />
+// 		</Route>
+// 		{/* <Route path="*" element={<ErrorRouter />} /> */}
+// 	</>
+// ))
+
 ReactDOM.createRoot(document.getElementById("root")).render(
 	<React.StrictMode>
 		<RouterProvider router={router} />
