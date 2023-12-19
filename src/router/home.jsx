@@ -17,7 +17,7 @@ export default function Home() {
 					</div>
 				</div>
 
-				<div className="absolute left-0 -top-1/2 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none" style={{background: 'radial-gradient(rgba(0, 100, 255, 0.2), transparent 70%)'}}>
+				<div className="absolute left-0 bottom-1/2 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none" style={{background: 'radial-gradient(rgba(0, 100, 255, 0.2), transparent 70%)'}}>
 
 				</div>
 				<div className="absolute right-0 w-[90vmin] h-[90vmin] blur-md rounded-full pointer-events-none" style={{background: 'radial-gradient(rgba(157, 0, 230, 0.3), transparent 70%)'}}>
