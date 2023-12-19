@@ -15,15 +15,48 @@ import { Admin } from "./router/admin/admin";
  * @param {Object} modules
  */
 const lazyImport = async (path, modules) => {
-	const result = {}
+	let result = {}
 
 	
-	await import(`./router/${path}.jsx`).then(module => 
-		Object.entries(modules).forEach(([key, val]) => 
-			result[key] = module[val]
-		)
-	)
+	// await import(`./router/${path}.jsx`).then(module => 
+	// 	Object.entries(modules).forEach(([key, val]) => 
+	// 		result[key] = module[val]
+	// 	)
+	// )
 
+	
+	switch (path) {
+		case "login":
+			result = await import("./router/login.jsx").then((module) => {
+				return { Component: module.Login, action: module.actionLogin };
+			});
+
+			break;
+		case "projects":
+			result = await import("./router/projects.jsx").then((module) => {
+				return {
+					Component: module.Projects,
+					loader: module.loaderProjects,
+				};
+			});
+
+			break;
+		case "teachers":
+			result = await import("./router/teachers.jsx").then((module) => {
+				return { Component: module.Teachers, loader: module.loaderTeacher };
+			});
+
+			break;
+		case "about":
+			result = await import("./router/about.jsx").then((module) => {
+				return { Component: module.About, loader: module.loaderDev };
+			});
+
+			break;
+
+		default:
+			break;
+	}
 	return result
 }
 

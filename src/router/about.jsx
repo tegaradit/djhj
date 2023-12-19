@@ -26,7 +26,7 @@ export const About = () => {
    const dataDev = useLoaderData()
 
    return (
-      <main className="flex flex-col justify-center items-center min-h-[calc(100vh_-_4.5rem)]">
+      <main className="flex flex-col items-center min-h-[calc(100vh_-_4.5rem)]">
          <TitlePage title='Contributors' content='Website jurusan PPLG' defaultText={false} />
 
          <ErrorFetching
