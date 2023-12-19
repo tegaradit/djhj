@@ -16,8 +16,8 @@ export default function Home() {
 	return (
 		<main style={{fontSize: 'clamp(14px, 2vw, 18px)'}} >
 			<section className="h-[calc(100vh_-_4.5rem)] relative w-full flex justify-center items-center px-8">
-				<div className="max-w-[45rem] text-center">
-					<div className="max-w-96 overflow-hidden">
+				<div className="max-w-[45rem] text-center overflow-hidden">
+					<div className="max-w-96">
 						<m.h1
 							className="text-[5em] mb-2 md:mb-8 text-transparent bg-clip-text bg-contain transition-[background-position] duration-[1.5s]" 
 							style={{

@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./router/root";
 import Home from "./router/home";
 import ErrorRouter from "./errors/errorRouter";
+import { Admin } from "./router/admin/admin";
 
 
 /**
@@ -17,7 +18,7 @@ const lazyImport = async (path, modules) => {
 	const result = {}
 
 	
-	await import(`/src/router/${path}.jsx` /* @vite-ignore */).then(module => 
+	await import(`./router/${path}.jsx`).then(module => 
 		Object.entries(modules).forEach(([key, val]) => 
 			result[key] = module[val]
 		)
@@ -45,9 +46,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "admin",
-				lazy: () => lazyImport('admin/admin', {
-					Component: 'Admin'
-				})
+				element: <Admin />
 			},
 			{
 				path: "projects",
