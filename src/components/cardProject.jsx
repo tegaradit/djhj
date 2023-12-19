@@ -1,6 +1,6 @@
 const CardLooping = ({ item }) => {
    return (
-      <div className="w-[24em] h-[9em] rounded-box bg-base-300">
+      <div className="w-full h-28 md:h-[7em] rounded-box bg-base-300">
          <img className="object-cover aspect-square h-full rounded-l-box float-left" src={item.thumnail} alt="" />
          
          <div className="overflow-hidden p-3 h-full relative">

@@ -3,6 +3,7 @@ import useCache from "../hooks/useCache"
 import useFetch from "../hooks/useFetch"
 import ErrorFetching from "../errors/errorFetching"
 import CardAbout from "../components/cardAbout"
+import TitlePage from "../components/titlePage"
 
 export const loaderDev = async () => {
    const cache = useCache()
@@ -25,10 +26,14 @@ export const About = () => {
    const dataDev = useLoaderData()
 
    return (
-      <ErrorFetching 
-         fallback={<h1>Error Fetching Data</h1>}
-         data={dataDev}
-         children={data => <CardAbout data={data} />}
-      />
+      <main className="flex flex-col justify-center items-center min-h-[calc(100vh_-_4.5rem)]">
+         <TitlePage title='Contributors' content='Website jurusan PPLG' defaultText={false} />
+
+         <ErrorFetching
+            fallback={<h1>Error Fetching Data</h1>}
+            data={dataDev}
+            children={data => <CardAbout data={data} className="flex justify-evenly gap-6 flex-wrap p-6" />}
+         />
+      </main>
    )
 }

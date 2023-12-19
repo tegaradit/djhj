@@ -48,16 +48,15 @@ const Root = () => {
 
 						className={`${state == 'idle' ? 'opacity-0 transition-opacity duration-500' : 'opacity-100'} origin-left w-full left-0 fixed top-0 h-[0.1rem] z-[999999] bg-gradient-to-r from-cyan-700 to-cyan-400`}
 					/>
-				</LazyMotion>
 
-				{
-					pathname != '/' & 
-					pathname != '/login' & 
-					!pathname.includes('/auth') ? 
-						<Navbar theme={[theme, setTheme]} /> : ''
-				}
-            
-				<Outlet context={{theme: [theme, setTheme]}} />
+					{
+						pathname != '/login' & 
+						!pathname.includes('/auth') ? 
+							<Navbar theme={[theme, setTheme]} /> : ''
+					}
+					
+					<Outlet context={{theme: [theme, setTheme]}} />
+				</LazyMotion>
 			</ErrorBoundary>
 		</>
 	)

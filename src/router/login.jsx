@@ -1,6 +1,6 @@
 import { Form, Link, useActionData, useNavigate } from "react-router-dom"
 import { useEffect } from "react";
-import { LazyMotion, m, domAnimation, useSpring, useTransform } from "framer-motion"
+import { m, useSpring, useTransform } from "framer-motion"
 
 import LoadingButton from "../components/loadingButton";
 import useCookie from "../hooks/useCookie";
@@ -68,52 +68,50 @@ export const Login = () => {
 
    return (
       <div className="w-full h-screen bg-gradient-to-br from-slate-950 to-slate-800 text-white flex justify-center items-center" style={{perspective: 400}}>
-         <LazyMotion features={domAnimation}>
-            <m.div
-               onMouseMove={handleMouse}
-               onMouseLeave={() => {
-                  mouseX.set(0)
-                  mouseY.set(0)
-               }}
-               style={{
-                  rotateX,
-                  rotateY
-               }}
-            >
-               <Form method="POST" action="/login" className="relative shadow-xl form-control w-80 items-stretch justify-center group bg-slate-500/10 p-[3rem_1.5rem] overflow-hidden rounded-xl gap-4">
-                  <h1 className="text-center font-bold text-lg">Login</h1>
+         <m.div
+            onMouseMove={handleMouse}
+            onMouseLeave={() => {
+               mouseX.set(0)
+               mouseY.set(0)
+            }}
+            style={{
+               rotateX,
+               rotateY
+            }}
+         >
+            <Form method="POST" action="/login" className="relative shadow-xl form-control w-80 items-stretch justify-center group bg-slate-500/10 p-[3rem_1.5rem] overflow-hidden rounded-xl gap-4">
+               <h1 className="text-center font-bold text-lg">Login</h1>
 
-                  <div>
-                     <label className="label">
-                        <span className="label-text text-white">username</span>
-                     </label>
-                     <input type="text" name="username" className="bg-inherit input input-bordered w-full max-w-xs border focus:border-slate-500 border-slate-500" />
-                  </div>
-                  
-                  <div className="mb-4">
-                     <label className="label">
-                        <span className="label-text text-white">password</span>
-                     </label>
-                     <input className="border border-slate-500 focus:border-slate-500 input input-bordered w-full max-w-xs bg-inherit" name="password" type="password" />
-                  </div>
+               <div>
+                  <label className="label">
+                     <span className="label-text text-white">username</span>
+                  </label>
+                  <input type="text" name="username" className="bg-inherit input input-bordered w-full max-w-xs border focus:border-slate-500 border-slate-500" />
+               </div>
+               
+               <div className="mb-4">
+                  <label className="label">
+                     <span className="label-text text-white">password</span>
+                  </label>
+                  <input className="border border-slate-500 focus:border-slate-500 input input-bordered w-full max-w-xs bg-inherit" name="password" type="password" />
+               </div>
 
-                  <div className="flex justify-stretch gap-3">
-                     <Link to={'/'} className="btn btn-neutral grow btn-xs sm:btn-sm md:btn-md lg:btn-lg" style={{height:'2rem', minHeight: '0rem', fontSize: '0.8rem'}}>Home</Link>
-                     <LoadingButton type="submit" className="grow" waitFor={actionData}>Login</LoadingButton>
-                  </div>
+               <div className="flex justify-stretch gap-3">
+                  <Link to={'/'} className="btn btn-neutral grow btn-xs sm:btn-sm md:btn-md lg:btn-lg" style={{height:'2rem', minHeight: '0rem', fontSize: '0.8rem'}}>Home</Link>
+                  <LoadingButton type="submit" className="grow" waitFor={actionData}>Login</LoadingButton>
+               </div>
 
-                     <m.div 
-                        style={{
-                           background: 'radial-gradient(cyan, transparent 50%)',
-                           x: mouseX,
-                           y: mouseY
-                        }}
+                  <m.div 
+                     style={{
+                        background: 'radial-gradient(cyan, transparent 50%)',
+                        x: mouseX,
+                        y: mouseY
+                     }}
 
-                        className="pointer-events-none group-hover:opacity-10 opacity-0 transition-opacity self-center duration-500 absolute w-[40rem] h-[40rem] blur-md rounded-full"
-                     />
-               </Form>
-            </m.div>
-         </LazyMotion>
+                     className="pointer-events-none group-hover:opacity-10 opacity-0 transition-opacity self-center duration-500 absolute w-[40rem] h-[40rem] blur-md rounded-full"
+                  />
+            </Form>
+         </m.div>
       </div>
    )
 }
