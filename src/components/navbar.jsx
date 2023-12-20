@@ -13,16 +13,18 @@ const Navbar = ({ theme }) => {
 
    const [isScrollOnTop, setIsScrollOnTop] = useState(false)
    const handdleScroll = () => {
+      console.log('event trigert')
       if (window.scrollY < window.innerHeight - 72) setIsScrollOnTop(true)
       else setIsScrollOnTop(false)
    }
    useEffect(() => {
       if (pathname == '/') {
-         window.addEventListener('scroll', handdleScroll)
+         window.addEventListener('scroll', handdleScroll, false)
          setIsScrollOnTop(true)
+         console.log('event added')
       }
-      else window.removeEventListener('scroll', handdleScroll)
-   }, [])
+      else {window.removeEventListener('scroll', handdleScroll, false); console.log('event remove')}
+   }, [pathname])
    
    
    const [scope, animate] = useAnimate()

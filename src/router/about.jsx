@@ -4,6 +4,7 @@ import useFetch from "../hooks/useFetch"
 import ErrorFetching from "../errors/errorFetching"
 import CardAbout from "../components/cardAbout"
 import TitlePage from "../components/titlePage"
+import UiErrorFetching from "../components/uiErrorFetching"
 
 export const loaderDev = async () => {
    const cache = useCache()
@@ -30,7 +31,7 @@ export const About = () => {
          <TitlePage title='Contributors' content='Website jurusan PPLG' defaultText={false} />
 
          <ErrorFetching
-            fallback={<h1>Error Fetching Data</h1>}
+            fallback={<UiErrorFetching />}
             data={dataDev}
             children={data => <CardAbout data={data} className="flex justify-evenly gap-6 flex-wrap p-6" />}
          />

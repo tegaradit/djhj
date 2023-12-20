@@ -28,7 +28,10 @@ const lazyImport = async (path, modules) => {
 	switch (path) {
 		case "login":
 			result = await import("./router/login.jsx").then((module) => {
-				return { Component: module.Login, action: module.actionLogin };
+				return { 
+					Component: module.Login, 
+					action: module.actionLogin 
+				};
 			});
 
 			break;
@@ -43,13 +46,19 @@ const lazyImport = async (path, modules) => {
 			break;
 		case "teachers":
 			result = await import("./router/teachers.jsx").then((module) => {
-				return { Component: module.Teachers, loader: module.loaderTeacher };
+				return { 
+					Component: module.Teachers, 
+					loader: module.loaderTeacher 
+				};
 			});
 
 			break;
 		case "about":
 			result = await import("./router/about.jsx").then((module) => {
-				return { Component: module.About, loader: module.loaderDev };
+				return { 
+					Component: module.About, 
+					loader: module.loaderDev 
+				};
 			});
 
 			break;
@@ -57,6 +66,7 @@ const lazyImport = async (path, modules) => {
 		default:
 			break;
 	}
+	
 	return result
 }
 
