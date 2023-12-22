@@ -1,4 +1,4 @@
-import { Form, Link, useActionData, useNavigate } from "react-router-dom"
+import { Form, Link, redirect, useActionData, useNavigate } from "react-router-dom"
 import { useEffect } from "react";
 import { m, useSpring, useTransform } from "framer-motion"
 
@@ -8,26 +8,24 @@ import useFetch from "../hooks/useFetch";
 
 
 export const actionLogin = async ({ request }) => {
-   console.log('action')
-
    const cookie = useCookie('token')
    const form = await request.formData()
 
    try {
       if (!cookie.isExist()) {
-         var result = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
+         var { result, ok } = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
             username: form.get('username'),
             password: form.get('password'),
          })
       }
-      
-      console.log(result)
-      
-      
-      cookie.updateDataAndExpires(result.token, 1)
-      return {
-         message: result.message
+
+      if (ok) {
+         cookie.updateDataAndExpires(result.token, 1)
+         return redirect('/admin')
+      } else {
+         throw new Error(result.message)
       }
+
    } catch (err) {
       console.log(err)
       // throw new Error(err)
@@ -42,9 +40,9 @@ export const Login = () => {
    useEffect(() => {
       if (actionData) {
          if (!actionData.err) 
-            if (actionData.message) navigate('/admin', {
+            if (actionData) navigate('/admin', {
                state: {
-                  message: actionData.message
+                  message: actionData
                }
             })
       }

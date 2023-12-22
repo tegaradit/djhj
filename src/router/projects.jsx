@@ -1,27 +1,9 @@
-import useCache from "../hooks/useCache"
-import useFetch from "../hooks/useFetch"
 // import { useLoaderData } from "react-router-dom"
 
 import exampleImg from '../assets/images/card.jpg'
 import CardProject from "../components/cardProject"
 import { useState } from "react"
 import TitlePage from "../components/titlePage"
-
-export const loaderProjects = async () => {
-   const cache = useCache()
-
-   if (!cache.getCache('dataProjects')) {
-      try {
-         const response = await useFetch("https://api.pplgsmenza.id/projek")
-         cache.setCache('dataProjects', response)
-      } catch (err) {
-         return new Error(err)
-      }
-   }
-
-   return cache.getCache('dataProjects')
-}
-
 
 export const Projects = () => {
 

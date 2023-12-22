@@ -1,19 +1,39 @@
-import { Link, useLocation } from "react-router-dom"
+import { Link, redirect, useLoaderData, useLocation } from "react-router-dom"
 import __basicAdmin from "./__basic-admin"
 import __superAdmin from "./__super-admin"
 import { useEffect } from "react"
 // import { useFetch } from "../../hooks/hooks"
-import plus from '../../assets/svg/plus.svg'
+// import plus from '../../assets/svg/plus.svg'
 import Sidebar from "../../components/sidebar"
+import useCookie from "../../hooks/useCookie"
+
+export const adminLoader = () => {
+   const cookie = useCookie('token')
+
+   if (!cookie.isExist()) return redirect('/login')
+   return 'success'
+}
 
 export const Admin = () => {
+   const data = useLoaderData()
    const location = useLocation()
+   // const navigate = useNavigate()
+
+   let role = false
+   let isLogin = false
+   useEffect(() => {
+      // if (location.state) {
+      //    isLogin = true
+      //    role = location.state.message.includes('super admin')
+      // } else navigate('/login')
+      console.log(data, location)
+   }, [])
 
    return (
       <>
          <Sidebar />
          <main className="ml-16 mt-16 p-12">
-            {location ? location.state.message.includes('super admin') ? <__superAdmin /> : <__basicAdmin /> : ''}
+            {isLogin ? role ? <__superAdmin /> : <__basicAdmin /> : ''}
             {/* <div className="mb-8 rounded-badge bg-base-300/50 w-24 cursor-pointer h-10 flex items-center gap-2">
                <div className="rounded-full bg-white/10 p-2 w-fit">
                   <img src={plus} alt="" />

@@ -3,31 +3,27 @@ import React    from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
+import loaderApi from "./utils/loaderApi.js";
 
-import Root from "./router/root";
-import Home from "./router/home";
-import ErrorRouter from "./errors/errorRouter";
-import { Admin } from "./router/admin/admin";
+import Root from "./router/root.jsx";
+import Home from "./router/home.jsx";
+import ErrorRouter from "./errors/errorRouter.jsx";
 
 
-/**
- * @param {string} path
- * @param {Object} modules
- */
-const lazyImport = async (path, modules) => {
+const lazyImport = async moduleName => {
 	let result = {}
 
 	
-	// await import(`./router/${path}.jsx`).then(module => 
+	// await import(`./router/${moduleName}.jsx`).then(module => 
 	// 	Object.entries(modules).forEach(([key, val]) => 
 	// 		result[key] = module[val]
 	// 	)
 	// )
 
 	
-	switch (path) {
+	switch (moduleName) {
 		case "login":
-			result = await import("./router/login.jsx").then((module) => {
+			result = await import("./router/login.jsx").then(module => {
 				return { 
 					Component: module.Login, 
 					action: module.actionLogin 
@@ -35,29 +31,38 @@ const lazyImport = async (path, modules) => {
 			});
 
 			break;
+		case "admin":
+			result = await import('./router/admin/admin.jsx').then(module => {
+				return {
+					Component: module.Admin,
+					loader: module.adminLoader
+				}
+			})
+
+			break;
 		case "projects":
-			result = await import("./router/projects.jsx").then((module) => {
+			result = await import("./router/projects.jsx").then(module => {
 				return {
 					Component: module.Projects,
-					loader: module.loaderProjects,
+					loader: () => loaderApi('https://api.pplgsmenza.id/projek', 'dataProjects')
 				};
 			});
 
 			break;
 		case "teachers":
-			result = await import("./router/teachers.jsx").then((module) => {
+			result = await import("./router/teachers.jsx").then(module => {
 				return { 
 					Component: module.Teachers, 
-					loader: module.loaderTeacher 
+					loader: () => loaderApi('https://api.pplgsmenza.id/guru', 'dataGuru') 
 				};
 			});
 
 			break;
 		case "about":
-			result = await import("./router/about.jsx").then((module) => {
+			result = await import("./router/about.jsx").then(module => {
 				return { 
 					Component: module.About, 
-					loader: module.loaderDev 
+					loader: () => loaderApi('https://api.pplgsmenza.id/pengembang', 'dataDev') 
 				};
 			});
 
@@ -82,35 +87,23 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "login",
-				lazy: () => lazyImport('login', {
-					Component: 'Login',
-					action: 'actionLogin'
-				})
+				lazy: () => lazyImport('login')
 			},
 			{
 				path: "admin",
-				element: <Admin />
+				lazy: () => lazyImport('admin')
 			},
 			{
 				path: "projects",
-				lazy: () => lazyImport('projects', {
-					Component: 'Projects',
-					loader: 'loaderProjects'
-				})
+				lazy: () => lazyImport('projects')
 			},
 			{
 				path: "teachers",
-				lazy: () => lazyImport('teachers', {
-					Component: 'Teachers',
-					loader: 'loaderTeacher'
-				})
+				lazy: () => lazyImport('teachers')
 			},
 			{
 				path: "about",
-				lazy: () => lazyImport('about', {
-					Component: 'About',
-					loader: 'loaderDev'
-				})
+				lazy: () => lazyImport('about')
 			}
 		],
 	},

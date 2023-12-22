@@ -11,9 +11,9 @@ const Navbar = ({ theme }) => {
    }
 
 
+
    const [isScrollOnTop, setIsScrollOnTop] = useState(false)
    const handdleScroll = () => {
-      console.log('event trigert')
       if (window.scrollY < window.innerHeight - 72) setIsScrollOnTop(true)
       else setIsScrollOnTop(false)
    }
@@ -21,12 +21,12 @@ const Navbar = ({ theme }) => {
       if (pathname == '/') {
          window.addEventListener('scroll', handdleScroll, false)
          setIsScrollOnTop(true)
-         console.log('event added')
       }
-      else {window.removeEventListener('scroll', handdleScroll, false); console.log('event remove')}
+      else window.removeEventListener('scroll', handdleScroll, false)
    }, [pathname])
-   
-   
+
+
+
    const [scope, animate] = useAnimate()
    const animateConfig = {
       duration: 0.5,
@@ -86,7 +86,7 @@ const Navbar = ({ theme }) => {
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                </button>
 
-               <div ref={scope} className={`${isScrollOnTop ? 'bg-transparent' : 'bg-base-300'} scale-0 border border-current select-none origin-center absolute shadow-sm w-10 h-10 top-14`}>
+               <div ref={scope} className={`${pathname == '/' & isScrollOnTop ? 'bg-transparent' : 'bg-base-300'} scale-0 border border-current select-none origin-center absolute shadow-sm w-10 h-10 top-14`}>
                   <ul className="flex items-center justify-center gap-2 h-full">
                      <li>
                         <Link to='/login' className="underline h-6 min-h-0 btn-sm text-xs btn btn-ghost">Login</Link>
@@ -118,7 +118,7 @@ const Navbar = ({ theme }) => {
             </Link>
          </div>
          
-         <ul className={`${isScrollOnTop ? 'bg-inherit' : 'bg-base-200'} transition-colors duration-300 menu menu-horizontal rounded-box mr-4 hidden sm:inline-flex`}>
+         <ul className={`${pathname == '/' & isScrollOnTop ? 'bg-inherit' : 'bg-base-200'} transition-colors duration-300 menu menu-horizontal rounded-box mr-4 hidden sm:inline-flex`}>
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/projects'>Projects</Link></li>
             <li><Link to='/teachers'>Teachers</Link></li>

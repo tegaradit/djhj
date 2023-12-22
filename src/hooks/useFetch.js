@@ -23,7 +23,13 @@ const useFetch = async (url, method = 'get', contentType = null, body = null, au
       if (!body) delete options.body
       if (!authorization) delete options.headers.authorization
 
-      return await fetch(url, options).then(res => {return res.json()})
+      return await fetch(url, options).then(async res => {
+         return {
+            result: await res.json() || null,
+            status: res.status,
+            ok: res.ok
+         }
+      })
 
    } catch (err) {
       throw new Error('USEFETCH_ERROR; ' + err)
