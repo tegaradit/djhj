@@ -51,7 +51,7 @@ const Root = () => {
 
 					{
 						pathname != '/login' & 
-						!pathname.includes('/auth') ? 
+						!pathname.includes('/admin') ? 
 							<Navbar theme={[theme, setTheme]} /> : ''
 					}
 					<Outlet context={{theme: [theme, setTheme]}} key={window.location.pathname} location={window.location} />

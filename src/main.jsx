@@ -34,8 +34,7 @@ const lazyImport = async moduleName => {
 		case "admin":
 			result = await import('./router/admin/admin.jsx').then(module => {
 				return {
-					Component: module.Admin,
-					loader: module.adminLoader
+					Component: module.Admin
 				}
 			})
 

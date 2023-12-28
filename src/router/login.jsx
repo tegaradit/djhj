@@ -1,4 +1,4 @@
-import { Form, Link, redirect, useActionData, useNavigate } from "react-router-dom"
+import { Form, Link, useActionData, useNavigate } from "react-router-dom"
 import { useEffect } from "react";
 import { m, useSpring, useTransform } from "framer-motion"
 
@@ -18,10 +18,10 @@ export const actionLogin = async ({ request }) => {
             password: form.get('password'),
          })
       }
-
       if (ok) {
          cookie.updateDataAndExpires(result.token, 1)
-         return redirect('/admin')
+         console.log(result.message)
+         return {role: result.message}
       } else {
          throw new Error(result.message)
       }
