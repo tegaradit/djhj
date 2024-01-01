@@ -16,7 +16,7 @@ const CardLooping = ({ item }) => {
 
 	return (
 		<>
-			<div className="min-w-96 pl-5 pt-5">
+			<div className="min-w-96  pl-5 pt-5">
 				<div
 					title="klik untuk melihat detail"
 					onMouseMove={handdleMouse}

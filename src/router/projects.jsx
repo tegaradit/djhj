@@ -76,21 +76,19 @@ export const Projects = () => {
    }
 
    return (
-      <main className="flex flex-col items-stretch" >
-         <TitlePage title='Projects' content='buatan siswa' width={80} />
+      <main className="flex flex-col items-stretch px-4">
+         <TitlePage title='Projects' content='buatan siswa' />
 
-         <header className="self-center px-8 max-w-[80rem] w-full mt-4 mb-4">
+         <header className="self-center max-w-[76rem] w-full mt-4 mb-4">
             <div className="float-right form-control flex-row items-center bg-base-200 rounded-md w-full md:w-fit p-1 order-1 md:order-2">
                <input type="text" placeholder="Search" className="input input-ghost w-full md:focus:w-96 transition-[width] duration-300 md:w-56" />
                <svg xmlns="http://www.w3.org/2000/svg" className="cursor-pointer h-5 w-5 mx-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
             </div>
          </header>
 
-         <section className="flex justify-center">
-            <div className="min-h-screen max-w-[80rem] w-full p-8">
-               <div className="rounded-box bg-base-200 h-full p-6">
-                  <CardProject data={dataProjects} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
-               </div>
+         <section className="self-center rounded-box bg-base-200 min-h-screen max-w-[76rem] w-full p-4">
+            <div>
+               <CardProject data={dataProjects} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
             </div>
          </section>
 

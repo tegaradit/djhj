@@ -10,13 +10,13 @@ export const About = () => {
    const dataDev = useLoaderData()
 
    return (
-      <main className="flex flex-col items-center min-h-[calc(100vh_-_4.5rem)]">
+      <main className="flex flex-col items-center px-4">
          <TitlePage title='Contributors' content='Website jurusan PPLG' defaultText={false} />
 
          <ErrorLoaderApi
             fallback={<UiErrorFetching />}
             data={dataDev}
-            children={data => <CardAbout data={data} className="flex justify-evenly gap-6 flex-wrap p-6" />}
+            children={data => <CardAbout data={data} className="flex justify-evenly gap-6 flex-wrap py-4" />}
          />
       </main>
    )
