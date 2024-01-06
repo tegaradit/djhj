@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom"
 import exampleProfile from '../assets/images/example-profile.jpg'
-import { useAnimate, stagger } from 'framer-motion'
 import { useEffect, useState } from "react"
+import PopupNav from "./popupNav"
 
 const Navbar = ({ theme }) => {
    const pathname = useLocation().pathname
@@ -9,7 +9,6 @@ const Navbar = ({ theme }) => {
    const handdleChange = () => {
       themeWeb == 'dark' ? setTheme('light') : setTheme('dark')
    }
-
 
 
    const [isScrollOnTop, setIsScrollOnTop] = useState(false)
@@ -26,51 +25,8 @@ const Navbar = ({ theme }) => {
    }, [pathname])
 
 
-
-   const [scope, animate] = useAnimate()
-   const animateConfig = {
-      duration: 0.5,
-      ease: 'anticipate',
-   }
    const [showMenu, setShowMenu] = useState(true)
-   const handdleFocus = () => {
-      setShowMenu(prev => !prev)
-
-      animate(scope.current, 
-         {
-            y: [-70 * Number(showMenu), -70 * Number(!showMenu)],
-            scale: [Number(!showMenu), Number(showMenu)]
-         },
-         { 
-            ...animateConfig,
-            delay: (0.6 * Number(!showMenu))
-         }
-      )
-         
-      animate(scope.current, 
-         {
-            borderRadius: 20 * Number(showMenu),
-            x: (((window.innerWidth / 2) - 100) - 185) * Number(showMenu),
-            height: 40 + 15 * Number(showMenu),
-            width: 40 + 360 * Number(showMenu)
-         },
-         {
-            ...animateConfig,
-            delay: (0.2 * Number(showMenu)) + (0.4 * Number(!showMenu))
-         }
-      )
-
-      animate('ul li', 
-         {
-            scale: [Number(!showMenu), Number(showMenu)]
-         },
-         {
-            ...animateConfig,
-            delay: stagger(0.1, {startDelay: 0.3 * Number(showMenu), from: 'center'})
-         }
-      )
-
-   }
+   const handdleFocus = () => setShowMenu(prev => !prev)
 
    return (
       <nav className={`${pathname == '/' & isScrollOnTop ? 'bg-transparent' : 'bg-base-300'} transition-colors duration-300 sticky top-0 navbar  z-[9999] px-6`}>
@@ -86,25 +42,17 @@ const Navbar = ({ theme }) => {
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                </button>
 
-               <div ref={scope} className={`${pathname == '/' & isScrollOnTop ? 'bg-transparent' : 'bg-base-300'} scale-0 border border-current select-none origin-center absolute shadow-sm w-10 h-10 top-14`}>
-                  <ul className="flex items-center justify-center gap-2 h-full">
-                     <li>
-                        <Link to='/login' className="underline h-6 min-h-0 btn-sm text-xs btn btn-ghost">Login</Link>
-                     </li>
-                     <li>
-                        <Link to='/' className="underline h-6 min-h-0 btn-sm text-xs btn btn-ghost">Home</Link>
-                     </li>
-                     <li>
-                        <Link to='/projects' className="underline h-6 min-h-0 btn-sm text-xs btn btn-ghost">Projects</Link>
-                     </li>
-                     <li>
-                        <Link to='/teachers' className="underline h-6 min-h-0 btn-sm text-xs btn btn-ghost">Teachers</Link>
-                     </li>
-                     <li>
-                        <Link to='/about' className="underline h-6 min-h-0 btn-sm text-xs btn btn-ghost">About</Link>
-                     </li>
-                  </ul>
-               </div>
+               <PopupNav
+                  className={pathname == '/' & isScrollOnTop ? 'bg-transparent' : 'bg-base-300'} 
+                  isOpen={showMenu} 
+                  content={{
+                     'Login': '/login',
+                     'Home': '/',
+                     'Projects': '/projects',
+                     'teachers': '/teachers',
+                     'About': '/about'
+                  }}
+               />
             </div>
          </div>
 

@@ -38,14 +38,13 @@ export const Login = () => {
    const navigate = useNavigate()
    
    useEffect(() => {
-      if (actionData) {
+      if (actionData) 
          if (!actionData.err) 
             if (actionData) navigate('/admin', {
                state: {
                   message: actionData
                }
             })
-      }
    }, [actionData])
 
 
