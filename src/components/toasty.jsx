@@ -25,7 +25,7 @@ const TYPE = {
    ]
 }
 
-const useToasty = () => {
+const Toasty = () => {
    const [show, trigert] = useState({
       type: 'default',
       text: '',
@@ -98,4 +98,4 @@ const useToasty = () => {
    return [trigert, Toasty]
 }
 
-export default useToasty
+export default Toasty

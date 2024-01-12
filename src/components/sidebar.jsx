@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Link, useOutletContext } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import PopupNav from "./popupNav";
+import { AppContext } from "../router/root";
 
 const Sidebar = ({ children }) => {
-	const [themeWeb, setTheme] = useOutletContext()['theme']   
+	const [themeWeb, setTheme] = useContext(AppContext).theme
    const handdleChange = () => {
       themeWeb == 'dark' ? setTheme('light') : setTheme('dark')
    }

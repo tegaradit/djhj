@@ -1,9 +1,11 @@
 import { Outlet, useLocation, useNavigation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { LazyMotion, m, domAnimation, useMotionValue, AnimatePresence } from "framer-motion"
 
 import ErrorBoundary from "../errors/errorBoundary";
 import Navbar from "../components/navbar";
+
+export const AppContext = createContext()
 
 const Root = () => {
 	const pathname = useLocation().pathname
@@ -37,8 +39,8 @@ const Root = () => {
 	}, [state])
 
 
-	return (
-		<>
+		return (
+		<AppContext.Provider value={{theme: [theme, setTheme]}}>
 			<ErrorBoundary fallback={<p>Error</p>}>
 				<LazyMotion features={domAnimation}>
 					<m.div
@@ -54,10 +56,11 @@ const Root = () => {
 						!pathname.includes('/admin') ? 
 							<Navbar theme={[theme, setTheme]} /> : ''
 					}
-					<Outlet context={{theme: [theme, setTheme]}} key={window.location.pathname} location={window.location} />
+
+					<Outlet />
 				</LazyMotion>
 			</ErrorBoundary>
-		</>
+		</AppContext.Provider>
 	)
 }
 export default Root

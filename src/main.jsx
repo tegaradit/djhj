@@ -145,12 +145,7 @@ const router = createBrowserRouter([
 // }
 
 // const router = createBrowserRouter(createRoutesFromElements(
-// 	<>
-// 		<Route path="*" element={<Root />}>
-// 			<Route index element={<AnimateRouters />} />
-// 		</Route>
-// 		{/* <Route path="*" element={<ErrorRouter />} /> */}
-// 	</>
+// 	<Route path="*" element={<Root />} />
 // ))
 
 ReactDOM.createRoot(document.getElementById("root")).render(

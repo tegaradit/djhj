@@ -1,12 +1,34 @@
-// import { useLoaderData } from "react-router-dom"
-
 import exampleImg from '../assets/images/card.jpg'
-import CardProject from "../components/cardProject"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import TitlePage from "../components/titlePage"
+import { AppContext } from './root'
+
+const CardLooping = ({ item, theme }) => {
+   return (
+      <div title={item.judul} className="relative overflow-hidden hover:-translate-y-1 group hover:shadow-md duration-300 transition-[box-shadow,_transform] cursor-pointer w-full h-28 md:h-[7em] rounded-box bg-base-300">
+         <img className="object-cover aspect-square h-full rounded-l-box float-left" src={item.thumnail} alt="" />
+      
+         <div className="overflow-hidden p-3 h-full relative">
+            <h1 className="text-[1.15em] font-bold mb-2 text-ellipsis overflow-hidden whitespace-nowrap">{item.judul}</h1>
+            <p className="text-[0.95em]">by {item.pembuat}</p>
+            <p className="text-[0.95em]">{item.kelas}</p>
+            <p className="text-base-content/70 text-[0.8em] text-right italic absolute bottom-3 right-3">{item.tanggalDibuat}</p>
+         </div>
+
+         <div
+            className={`${theme == 'dark' ? 'group-hover:opacity-20' : 'group-hover:opacity-50'} max-md:hidden -z-10 w-96 h-56 pointer-events-none top-0 -right-14  opacity-0 transition-opacity self-center duration-500 absolute blur-md rounded-full`}
+            style={{
+               backgroundImage: `radial-gradient(${theme == 'dark' ? 'cyan' : '#b35cff'}, transparent 50%)`
+            }}
+         />
+      </div>
+   )
+}
+
 
 export const Projects = () => {
-
+   const [theme, _] = useContext(AppContext).theme
+   
    const dataProjects = [
       {
          id: 1,
@@ -88,7 +110,9 @@ export const Projects = () => {
 
          <section className="self-center rounded-box bg-base-200 min-h-screen max-w-[76rem] w-full p-4">
             <div>
-               <CardProject data={dataProjects} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" />
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" style={{fontSize: 'clamp(14px, 1.5vw, 16px)'}}>
+                  {dataProjects.map(item => <CardLooping item={item} key={item.id} theme={theme} />)}
+               </div>
             </div>
          </section>
 

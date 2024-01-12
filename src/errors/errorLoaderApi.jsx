@@ -1,8 +1,8 @@
-const ErrorLoaderApi = ({children, fallback, data}) => {
+const ErrorLoaderApi = ({childern, fallback, data}) => {
    if (data == null | data == undefined | data instanceof Error)
       return fallback
 
-	return children(data)
+	return childern(data)
 }
 
 export default ErrorLoaderApi
