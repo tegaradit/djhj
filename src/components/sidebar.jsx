@@ -1,17 +1,31 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
 import PopupNav from "./popupNav";
 import { AppContext } from "../router/root";
+import useFetch from "../hooks/useFetch";
+import useCookie from "../hooks/useCookie";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = ({ children }) => {
 	const [themeWeb, setTheme] = useContext(AppContext).theme
-   const handdleChange = () => {
-      themeWeb == 'dark' ? setTheme('light') : setTheme('dark')
-   }
+	const cookie = useCookie('token')
+	const navigate = useNavigate()
+
+   const handdleChange = () => themeWeb == 'dark' ? setTheme('light') : setTheme('dark')
 
 	const [sidebarOpen, setSidebarOpen] = useState(false)
 	const handdleClick = () => {
 		setSidebarOpen(prev => !prev)
+	}
+
+	const handdleLogout = async () => {
+		try {
+			await useFetch('https://api.pplgsmenza.id/admin/logout', 'post', null, null, cookie.isExist())
+			cookie.destroy()
+			navigate('/login')
+
+		} catch (err) {
+			console.log(err)
+		}
 	}
 
 	return (
@@ -93,12 +107,12 @@ const Sidebar = ({ children }) => {
 
 						<ul className="absolute bottom-32 w-full">
 							<li className="hover:bg-base-content/10 p-2 cursor-pointer transition-colors rounded-btn whitespace-nowrap">
-								<Link to='/login'>
+								<button onClick={handdleLogout}>
 									<svg className="inline-block mr-2" width="22" height="22" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<path fill="currentColor" d="M2 18C1.45 18 0.979333 17.8043 0.588 17.413C0.196667 17.0217 0.000666667 16.5507 0 16V2C0 1.45 0.196 0.979333 0.588 0.588C0.98 0.196667 1.45067 0.000666667 2 0H9V2H2V16H9V18H2ZM13 14L11.625 12.55L14.175 10H6V8H14.175L11.625 5.45L13 4L18 9L13 14Z"/>
 									</svg>
 									<span className={`${sidebarOpen ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'} transition-[opacity,transform] duration-300 inline-block`}>Logout</span>
-								</Link>
+								</button>
 							</li>
 						</ul>
 					</div>

@@ -19,7 +19,8 @@ class Cookie {
    
    // private method
    #updateCookie() {
-      if (this.name != null & this.expires != null) document.cookie = `${this.name}=${this.data}; SameSite=None; expires=${this.expires}; Secure`
+      if (this.name != null & this.expires != null & this.data != null || this.isExist()) 
+         document.cookie = `${this.name}=${this.data || this.isExist()}; SameSite=None; expires=${this.expires}; Secure`
    }
    
    /**
@@ -34,8 +35,7 @@ class Cookie {
 
    destroy() {
       if (this.isExist()) {
-         this.#date.setTime(Date.now())
-         this.expires = this.#date.toUTCString()
+         this.expires = "Sun, 14 Jan 1998 09:33:23 GMT"
          this.#updateCookie()
       }
    }
@@ -66,11 +66,11 @@ class Cookie {
     * @param {number} expires number of day
     * @returns {void}
     */
-      updateDataAndExpires(data, expires) {
-         this.data = data
-         this.expires = this.#numToStrExpires(expires)
-         this.#updateCookie()
-      }
+   updateDataAndExpires(data, expires) {
+      this.data = data
+      this.expires = this.#numToStrExpires(expires)
+      this.#updateCookie()
+   }
 
    /**
     * @returns {null | string}

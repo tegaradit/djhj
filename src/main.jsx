@@ -1,13 +1,14 @@
 import "./index.css";
 import React    from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
 import loaderApi from "./utils/loaderApi.js";
 
 import Root from "./router/root.jsx";
 import Home from "./router/home.jsx";
 import ErrorRouter from "./errors/errorRouter.jsx";
+import { AdminWrap } from "./router/admin/adminWrap.jsx";
 
 
 const lazyImport = async moduleName => {
@@ -26,15 +27,17 @@ const lazyImport = async moduleName => {
 			result = await import("./router/login.jsx").then(module => {
 				return { 
 					Component: module.Login, 
-					action: module.actionLogin 
+					action: module.actionLogin,
+					loader: module.loaderLogin
 				};
 			});
 
 			break;
 		case "admin":
-			result = await import('./router/admin/admin.jsx').then(module => {
+			result = await import('./router/admin/adminWrap.jsx').then(module => {
 				return {
-					Component: module.Admin
+					Component: module.AdminWrap,
+					loader: module.loader
 				}
 			})
 
@@ -111,6 +114,17 @@ const router = createBrowserRouter([
 		element: <ErrorRouter />
 	},
 ])
+
+// const router = createBrowserRouter(createRoutesFromElements(
+// 	<Route path="/" element={<Root />}>
+// 		<Route index element={<Home />} />
+// 		<Route path="/login" lazy={() => lazyImport('login')} />
+// 		<Route path="/projects" lazy={() => lazyImport('projects')} />
+// 		<Route path="/teachers" lazy={() => lazyImport('teachers')} />
+// 		<Route path="/about" lazy={() => lazyImport('about')} />
+// 		<Route path="/auth" element={<AdminWrap />} />
+// 	</Route>
+// ))
 
 // const AnimateRouters = () => {
 // 	const location = useLocation();

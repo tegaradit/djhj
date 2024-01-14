@@ -17,18 +17,18 @@
 
 // console.log(test())
 
-const myObj = {
-	fName: 'someone',
-	lName: 'hihihiha',
-	fullName: function () {
-		return this.fName + ' ' + this.lName
-	} 
-}
+// const myObj = {
+// 	fName: 'someone',
+// 	lName: 'hihihiha',
+// 	fullName: function () {
+// 		return this.fName + ' ' + this.lName
+// 	} 
+// }
 
-const secondObj = {
-	fName: 'hifapfdf',
-	lName: 'sogppgod'
-}
+// const secondObj = {
+// 	fName: 'hifapfdf',
+// 	lName: 'sogppgod'
+// }
 
 
 // console.log(myObj.fullName.bind(secondObj)())
@@ -43,3 +43,22 @@ const secondObj = {
 // extends; export; async; await; else if;
 // null; package; in; instanceof; true; false;
 // satisfies; asserts; as; with; void; of;
+
+
+const myObj = {
+	name: '',
+	class: '',
+	changeName: function (value) {
+		this.name = value
+	},
+	changeClass: function (value) {
+		this.class = value
+	}
+}
+
+console.log(myObj.name, myObj.class)
+
+myObj.changeName('kajfdl')
+myObj.changeClass('lkfja')
+
+console.log(myObj.name, myObj.class)
