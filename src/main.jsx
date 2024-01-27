@@ -1,14 +1,13 @@
 import "./index.css";
 import React    from "react";
 import ReactDOM from "react-dom/client";
-import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import loaderApi from "./utils/loaderApi.js";
 
 import Root from "./router/root.jsx";
 import Home from "./router/home.jsx";
 import ErrorRouter from "./errors/errorRouter.jsx";
-import { AdminWrap } from "./router/admin/adminWrap.jsx";
 
 
 const lazyImport = async moduleName => {
@@ -31,8 +30,8 @@ const lazyImport = async moduleName => {
 					loader: module.loaderLogin
 				};
 			});
+		break;
 
-			break;
 		case "admin":
 			result = await import('./router/admin/adminWrap.jsx').then(module => {
 				return {
@@ -40,37 +39,60 @@ const lazyImport = async moduleName => {
 					loader: module.loader
 				}
 			})
+		break;
 
-			break;
 		case "projects":
 			result = await import("./router/projects.jsx").then(module => {
 				return {
 					Component: module.Projects,
-					loader: () => loaderApi('https://api.pplgsmenza.id/projek', 'dataProjects')
+					loader: loaderApi('https://api.pplgsmenza.id/projek', 'dataProjects')
 				};
 			});
+		break;
 
-			break;
 		case "teachers":
 			result = await import("./router/teachers.jsx").then(module => {
 				return { 
 					Component: module.Teachers, 
-					loader: () => loaderApi('https://api.pplgsmenza.id/guru', 'dataGuru') 
+					loader: loaderApi('https://api.pplgsmenza.id/guru', 'dataGuru') 
 				};
 			});
+		break;
 
-			break;
 		case "about":
 			result = await import("./router/about.jsx").then(module => {
 				return { 
 					Component: module.About, 
-					loader: () => loaderApi('https://api.pplgsmenza.id/pengembang', 'dataDev') 
+					loader: loaderApi('https://api.pplgsmenza.id/pengembang', 'dataDev') 
 				};
 			});
+		break;
 
-			break;
+		case "admin/projects":
+			result = await import("./router/admin/pages/projects.jsx").then(module => {
+				return { 
+					Component: module.default
+					// loader: () => loaderApi('https://api.pplgsmenza.id/pengembang', 'dataDev') 
+				};
+			});
+		break;
 
-		default:
+		case "admin/teachers":
+			result = await import("./router/admin/pages/teachers.jsx").then(module => {
+				return { 
+					Component: module.default,
+					loader: loaderApi('https://api.pplgsmenza.id/guru', 'dataGuru')
+				};
+			});
+		break;
+
+		case "admin/about":
+			result = await import("./router/admin/pages/about.jsx").then(modules => {
+				return {
+					Component: modules.default,
+					loader: loaderApi('https://api.pplgsmenza.id/pengembang', 'dataDev')
+				}
+			})
 			break;
 	}
 	
@@ -93,7 +115,21 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "admin",
-				lazy: () => lazyImport('admin')
+				lazy: () => lazyImport('admin'),
+				children: [
+					{
+						index: true,
+						lazy: () => lazyImport('admin/projects')
+					},
+					{
+						path: 'teachers',
+						lazy: () => lazyImport('admin/teachers')
+					},
+					{
+						path: 'about',
+						lazy: () => lazyImport('admin/about')
+					}
+				]
 			},
 			{
 				path: "projects",

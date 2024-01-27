@@ -2,6 +2,7 @@ import { m, useMotionValueEvent, useScroll } from 'framer-motion';
 import microchipImg from '../assets/svg/microchip.svg'
 import abstractBg from '../assets/images/abstract.webp'
 import { useState } from 'react';
+import toasty from '../components/toasty';
 // import { useEffect, useRef, useState } from 'react';
 
 // const listColor = ['rgb(0, 255, 255)', 'rgb(185, 87, 255)', 'rgb(12, 250, 0)', 'rgb(67, 0, 250)', 'rgb(250, 0, 0)']
@@ -36,8 +37,17 @@ export default function Home() {
 	// 	})
 	// }, [])		
 
+	const [trigert, Toasty] = toasty()
+	const handdleEvent = () => {
+		trigert({
+			type: 'error',
+			text: '',
+			duration: 3000
+		})
+	}
+
 	return (
-		<main style={{fontSize: 'clamp(14px, 2vw, 18px)'}} >
+		<main style={{fontSize: 'clamp(14px, 2vw, 18px)'}}>
 			<section className="h-[calc(100vh_-_4.5rem)] relative w-full flex justify-center items-center ">
 				<div className="overflow-hidden w-full px-8">
 					<div className="max-w-[45rem] text-center mx-auto">
@@ -222,6 +232,10 @@ export default function Home() {
 				/>
 			</section>
 
+			<div>
+				<button onClick={handdleEvent}>Show Toasty</button>
+				<Toasty />
+			</div>
 
 			<section className="h-[200vh] w-full">
 				<div className="px-24 py-8">

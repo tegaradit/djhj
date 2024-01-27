@@ -1,5 +1,5 @@
 import { motion, useAnimationControls } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { Component, useEffect, useState } from 'react'
 
 const TYPE = {
    "default": ['', 'hidden'],
@@ -25,7 +25,11 @@ const TYPE = {
    ]
 }
 
-const Toasty = () => {
+/**
+ * 
+ * @returns {[Function, Component]}
+ */
+const toasty = () => {
    const [show, trigert] = useState({
       type: 'default',
       text: '',
@@ -38,12 +42,16 @@ const Toasty = () => {
 
       useEffect(() => {
          if (show.type != 'default' && !isShow) {
+            controls.mount()
             controls.start('show')
             setIsShow(true)
-            console.log(isShow)
             setTimeout(() => {
                controls.start('hide')
-               console.log(isShow)
+               trigert({
+                  type: 'default',
+                  text: '',
+                  duration: 3000
+               })
                setIsShow(false)
             }, show.duration)
          }
@@ -98,4 +106,4 @@ const Toasty = () => {
    return [trigert, Toasty]
 }
 
-export default Toasty
+export default toasty

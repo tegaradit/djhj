@@ -1,10 +1,8 @@
-import { useLoaderData } from "react-router-dom"
+import { useLoaderData, useOutletContext } from "react-router-dom"
 import TitlePage from "../components/titlePage"
 import UiErrorFetching from "../components/uiErrorFetching"
 import ErrorLoaderApi from "../errors/errorLoaderApi"
 import { m, useSpring } from "framer-motion";
-import { useContext } from "react";
-import { AppContext } from "./root";
 import icons from "../components/icons";
 
 const CardLooping = ({ item, theme }) => {
@@ -22,7 +20,7 @@ const CardLooping = ({ item, theme }) => {
 
 	return (
 		<>
-			<div className="min-w-96  pl-5 pt-5">
+			<div className="min-w-96 pl-5 pt-5">
 				<div
 					title="klik untuk melihat detail"
 					onMouseMove={handdleMouse}
@@ -100,7 +98,7 @@ const CardLooping = ({ item, theme }) => {
 export const Teachers = () => {
    /**@type {Array} */
    const dataGuru = useLoaderData()
-   const [theme, _] = useContext(AppContext).theme
+   const [theme, _] = useOutletContext().theme
    
    return (
       <main className="flex flex-col justify-center items-center px-4">

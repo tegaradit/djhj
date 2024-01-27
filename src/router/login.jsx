@@ -1,10 +1,10 @@
-import { Form, Link, redirect, useActionData, useLoaderData, useNavigate } from "react-router-dom"
-import { useEffect } from "react";
+import { Form, Link, redirect } from "react-router-dom"
 import { m, useSpring, useTransform } from "framer-motion"
 
 import LoadingButton from "../components/loadingButton";
 import useCookie from "../hooks/useCookie";
 import useFetch from "../hooks/useFetch";
+import useCache from "../hooks/useCache";
 
 export const loaderLogin = async () => {
    const cookie = useCookie('token')
@@ -15,39 +15,30 @@ export const loaderLogin = async () => {
 
 export const actionLogin = async ({ request }) => {
    const cookie = useCookie('token')
+   const cache = useCache()
    const form = await request.formData()
    
    try {
       if (!cookie.isExist()) {
-         var result = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
+         return await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', 'application/json', {
             username: form.get('username'),
             password: form.get('password'),
-         }).then( async ({ result }) => {
+         })
+         .then( async ({ result }) => {
             cookie.updateDataAndExpires(result.token, 1)
-            return await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', null, null, result.token).then(({ result }) => result.role)
+            return await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', null, null, result.token)
+            .then(({ result }) => {
+               cache.setCache('role', result.role)
+               return redirect('/admin')
+            })
          })
       }
-      return result || null
    } catch (err) {
       return { err }
    }
 }
 
 export const Login = () => {
-   const actionData = useActionData()
-   const loaderData = useLoaderData()
-   const navigate = useNavigate()
-   
-   useEffect(() => {
-      if (loaderData || actionData) {
-         navigate('/admin', {
-            state: {
-               navigateTo: loaderData | actionData
-            }
-         })
-      }
-   }, [actionData, loaderData])
-
 
    // login form effect
    const springOptions = {
@@ -96,7 +87,7 @@ export const Login = () => {
 
                <div className="flex justify-stretch gap-3">
                   <Link to={'/'} className="btn btn-neutral grow btn-xs sm:btn-sm md:btn-md lg:btn-lg" style={{height:'2rem', minHeight: '0rem', fontSize: '0.8rem'}}>Home</Link>
-                  <LoadingButton type="submit" className="grow btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-lg" waitFor={actionData}>Login</LoadingButton>
+                  <LoadingButton type="submit" className="grow btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-lg">Login</LoadingButton>
                </div>
 
                   <m.div 

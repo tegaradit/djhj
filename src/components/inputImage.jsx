@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 
-const InputImage = ({ stateSetter, className, fallbackImagePreview = null }) => {
+const InputImage = ({ stateSetter, className, fallbackImagePreview = null, name, text }) => {
+	const dataTransfer = new DataTransfer()
+
    const inputRef = useRef()
-   const [previewImg, setPreviewImg] = useState(fallbackImagePreview ? true : null)
+   const [previewImg, setPreviewImg] = useState(fallbackImagePreview ? true : false)
    const upload = files => {
       if (stateSetter) stateSetter(files[0])
       setPreviewImg(files[0])
@@ -23,12 +25,17 @@ const InputImage = ({ stateSetter, className, fallbackImagePreview = null }) => 
          e.preventDefault();
          setDragging(false);
          const files = [...e.dataTransfer.files];
-         upload(files);
+
+			const file = new File([files[0]], "image")
+			dataTransfer.items.add(file)
+			inputRef.current.files = dataTransfer.files
+         
+			upload(files);
    };
 
 	return (
 		<div
-			className={`${dragging ? "border" : ""} ` + className}
+			className={`${dragging ? "border" : ""} relative group overflow-hidden text-center cursor-pointer ` + className}
 			onDragEnter={handleDragEnter}
 			onDragLeave={handleDragLeave}
 			onDragOver={handleDragOver}
@@ -38,7 +45,7 @@ const InputImage = ({ stateSetter, className, fallbackImagePreview = null }) => 
 			{dragging ? (
 				<span>Jatuhkan Gambar</span>
 			) : (
-				<span>click atau Drag'n Drop Gambar</span>
+				<span className={previewImg && `group-hover:inline hidden`}>{text}</span>
 			)}
 
 			<input
@@ -49,11 +56,11 @@ const InputImage = ({ stateSetter, className, fallbackImagePreview = null }) => 
 				required
 				type="file"
 				hidden
-				name="thumnail-project"
+				name={name || ""}
 			/>
 			{previewImg ? (
 				<img
-					className={`${dragging ? "opacity-10" : "opacity-100"} w-full h-full object-cover absolute top-0 hover:opacity-10 transition-opacity duration-300`}
+					className={`${dragging ? "opacity-10" : "opacity-100"} w-full h-full object-cover absolute top-0 group-hover:opacity-10 transition-opacity duration-300`}
 					src={previewImg instanceof Blob ? URL.createObjectURL(previewImg) : fallbackImagePreview}
 				/>
 			) : ""}

@@ -2,20 +2,30 @@ import Admin from "./Admin"
 import Super_admin from "./Super_admin"
 import Sidebar from "../../components/sidebar"
 import ErrorRouter from "../../errors/errorRouter"
-import { useLoaderData, useLocation } from "react-router-dom"
+import { useLoaderData } from "react-router-dom"
 import useCookie from "../../hooks/useCookie"
 import useFetch from "../../hooks/useFetch"
+import useCache from "../../hooks/useCache"
 
 export const loader = async () => {
    const cookie = useCookie('token')
+   const cache = useCache()
 
-   if (cookie.isExist()) {
-      var { result } = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', null, null, cookie.isExist())
-      return result.role
+   try {
+      if (cookie.isExist()) {
+         if (!cache.getCache('role')) {
+            var { result } = await useFetch('https://api.pplgsmenza.id/admin/login', 'POST', null, null, cookie.isExist())
+            cache.setCache('role', result.role)
+            console.log('api req')
+            return result.role
+         }
+      }
+   } catch {
+      return null
    }
-   
-   return null
+   return cache.getCache('role') || null
 }
+
 
 const route = {
    admin: <Admin />,
@@ -23,16 +33,13 @@ const route = {
 }
 
 export const AdminWrap = () => {
-   const location = useLocation()
    const loaderData = useLoaderData()
 
-   return location.state instanceof Object || loaderData ?
-      route[location.state.navigateTo || loaderData] ? (
+   return loaderData ? (
          <>
             <Sidebar>
-               {route[location.state.navigateTo || loaderData]}
+               {route[loaderData]}
             </Sidebar>
          </>
       ) : <ErrorRouter />
-      : <ErrorRouter />
 }

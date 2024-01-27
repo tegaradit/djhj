@@ -1,9 +1,8 @@
 import icons from "./icons"
-import { useContext } from "react"
-import { AppContext } from "../router/root"
+import { useOutletContext } from "react-router-dom"
 
 const TitlePage = ({ title, content, width = 76, defaultText = true, className }) => {
-   const [theme, _] = useContext(AppContext).theme
+   const [theme, _] = useOutletContext().theme
    const svgVariant = [
       <icons.circle width={300} height={200} color={theme == 'dark' ? 'cyan' : 'purple'} style={{rotate: Math.random() * 360 + 'deg' }} />,
       <icons.square width={300} height={200} color={theme == 'dark' ? 'cyan' : 'purple'} style={{rotate: Math.random() * 360 + 'deg' }} />,

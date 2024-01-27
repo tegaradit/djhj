@@ -1,7 +1,7 @@
 import exampleImg from '../assets/images/card.jpg'
-import { useContext, useState } from "react"
+import { useState } from "react"
 import TitlePage from "../components/titlePage"
-import { AppContext } from './root'
+import { useOutletContext } from 'react-router-dom'
 
 const CardLooping = ({ item, theme }) => {
    return (
@@ -27,7 +27,7 @@ const CardLooping = ({ item, theme }) => {
 
 
 export const Projects = () => {
-   const [theme, _] = useContext(AppContext).theme
+   const [theme, _] = useOutletContext().theme
    
    const dataProjects = [
       {
